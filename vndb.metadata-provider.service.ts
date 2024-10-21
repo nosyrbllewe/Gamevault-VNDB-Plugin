@@ -57,11 +57,11 @@ export interface VndbFilterResponse
 
 @Injectable()
 export class VndbMetadataProviderService extends MetadataProvider {
-  enabled = configuration.METADATA.IGDB.ENABLED;
-  request_interval_ms = configuration.METADATA.IGDB.REQUEST_INTERVAL_MS;
+  enabled = configuration.METADATA.VNDB.ENABLED;
+  request_interval_ms = configuration.METADATA.VNDB.REQUEST_INTERVAL_MS;
   readonly slug = "vndb";
   readonly name = "VNDB";
-  readonly priority = configuration.METADATA.IGDB.PRIORITY;
+  readonly priority = configuration.METADATA.VNDB.PRIORITY;
   readonly fieldsToInclude = [
     "*",
     "age_ratings.*",
@@ -167,7 +167,7 @@ export class VndbMetadataProviderService extends MetadataProvider {
       average_playtime: visualNovel.length_minutes,
       developers: visualNovel.developers.map(developer => 
         ({
-            provider_slug: "vndb",
+            provider_slug: this.slug,
             provider_data_id: developer.id,
             name: developer.name,
           }) as DeveloperMetadata,
@@ -175,14 +175,14 @@ export class VndbMetadataProviderService extends MetadataProvider {
       publishers: [],
       genres: [
           ({
-            provider_slug: "vndb",
+            provider_slug: this.slug,
             provider_data_id: 1,
             name: "Visual Novel",
           }) as GenreMetadata,
         ],
       tags: visualNovel.tags.map(tag => 
             ({
-                provider_slug: "vndb",
+                provider_slug: this.slug,
                 provider_data_id: tag.id,
                 name: tag.name
             })  as TagMetadata),
@@ -195,7 +195,7 @@ export class VndbMetadataProviderService extends MetadataProvider {
     game: VndbVisualNovel,
   ): Promise<MinimalGameMetadataDto> {
     return {
-      provider_slug: "vndb",
+      provider_slug: this.slug,
       provider_data_id: game.id?.toString(),
       title: game.title,
       description: game.description,
