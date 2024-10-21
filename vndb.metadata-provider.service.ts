@@ -108,26 +108,6 @@ export class VndbMetadataProviderService extends MetadataProvider {
 
     found_games.push(...responseData.results);
 
-    // if (isNumberString(query)) {
-    //     const data = {
-    //         "filters": [
-    //             "id",
-    //             "=",
-    //             query
-    //         ],
-    //         "fields": "title, image.url, released, length_minutes, description, devstatus, rating, screenshots.url, developers.name, tags.name, tags.id, extlinks.url"
-    //     };
-    //     response = await fetch(url, {
-    //         method: 'POST',
-    //         headers: {
-    //             'Content-Type': 'application/json'
-    //         },
-    //         body: JSON.stringify(data)
-    //     });
-    //     const responseData : VndbFilterResponse = await response.json() as VndbFilterResponse;
-    //   found_games.push(...responseData.results);
-    // }
-
     this.logger.debug({
       message: `Found ${found_games.length} games on VNDB`,
       query,
@@ -167,24 +147,25 @@ export class VndbMetadataProviderService extends MetadataProvider {
     return this.mapGameMetadata(responseData.results[0] as VndbVisualNovel);
   }
 
-  private async mapGameMetadata(game: VndbVisualNovel): Promise<GameMetadata> {
+  private async mapGameMetadata(visualNovel: VndbVisualNovel): Promise<GameMetadata> {
     return {
       age_rating: 18,// Assume all visual novels are 18+ for now
       provider_slug: this.slug,
-      provider_data_id: game.id?.toString(),
+      provider_data_id: visualNovel.id?.toString(),
       provider_data_url: "https://example.com",
-      title: game.title,
-      release_date: isNaN(new Date(game.released).getTime())
+      title: visualNovel.title,
+      release_date: isNaN(new Date(visualNovel.released).getTime())
         ? undefined
-        : new Date(game.released),
-      description: game.description,
-      rating: game.rating,
-      url_websites: game.extlinks.map(links => links.url),
-      early_access: game.devstatus === 1,
-      url_screenshots: game.screenshots.map(screenshot => screenshot.url),
+        : new Date(visualNovel.released),
+      description: visualNovel.description,
+      rating: visualNovel.rating,
+      url_websites: visualNovel.extlinks.map(links => links.url),
+      early_access: visualNovel.devstatus === 1,
+      url_screenshots: visualNovel.screenshots.map(screenshot => screenshot.url),
       url_trailers: undefined,
       url_gameplays: undefined,
-      developers: game.developers.map(developer => 
+      average_playtime: visualNovel.length_minutes,
+      developers: visualNovel.developers.map(developer => 
         ({
             provider_slug: "vndb",
             provider_data_id: developer.id,
@@ -199,13 +180,13 @@ export class VndbMetadataProviderService extends MetadataProvider {
             name: "Visual Novel",
           }) as GenreMetadata,
         ],
-      tags: game.tags.map(tag => 
+      tags: visualNovel.tags.map(tag => 
             ({
                 provider_slug: "vndb",
                 provider_data_id: tag.id,
                 name: tag.name
             })  as TagMetadata),
-      cover: await this.downloadImage(game.image?.url),
+      cover: await this.downloadImage(visualNovel.image?.url),
       background: undefined,
     } as GameMetadata;
   }
