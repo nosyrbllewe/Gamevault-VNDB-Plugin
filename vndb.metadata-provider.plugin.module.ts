@@ -3,8 +3,8 @@ import { Module } from "@nestjs/common";
 import {
   GameVaultPluginModule,
   GameVaultPluginModuleMetadataV1,
-} from "../../../src/globals";
-import { MetadataModule } from "../../../src/modules/metadata/metadata.module";
+} from "../../src/globals";
+import { MetadataModule } from "../../src/modules/metadata/metadata.module";
 import { VndbMetadataProviderService } from "./vndb.metadata-provider.service";
 
 @Module({
