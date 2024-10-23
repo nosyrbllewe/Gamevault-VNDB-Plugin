@@ -8,15 +8,15 @@ import {
 import { MetadataModule } from "../../app/dist/src/modules/metadata/metadata.module";
 import { VndbMetadataProviderService } from "./vndb.metadata-provider.service";
 
-@Module({
-  imports: [
-    MetadataModule, // You can use any modules of GameVault here
-  ],
-  controllers: [
-     // You can provide your own API endpoints
-  ],
-  providers: [VndbMetadataProviderService],
-})
+// @Module({
+//   imports: [
+//     MetadataModule, // You can use any modules of GameVault here
+//   ],
+//   controllers: [
+//      // You can provide your own API endpoints
+//   ],
+//   providers: [VndbMetadataProviderService],
+// })
 export default class VndbMetadataProviderPluginModule implements GameVaultPluginModule {
   metadata: GameVaultPluginModuleMetadataV1 = {
     name: "VNDB Metadata Provider",
