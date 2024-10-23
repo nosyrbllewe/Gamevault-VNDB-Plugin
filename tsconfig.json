@@ -1,0 +1,7 @@
+{
+    "compilerOptions": {
+      "experimentalDecorators": true,
+      "emitDecoratorMetadata": true // This might also be needed
+    }
+  }
+  

@@ -1,3 +1,4 @@
+/// <reference path="./tsconfig.json" />
 import { Module } from "../../app/node_modules/@nestjs/common";
 
 import {
