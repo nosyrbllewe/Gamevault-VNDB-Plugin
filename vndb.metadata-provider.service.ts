@@ -53,7 +53,7 @@ export interface VndbFilterResponse
     more: boolean;
 }
 
-// @Injectable()
+@Injectable()
 export class VndbMetadataProviderService extends MetadataProvider {
   enabled = configuration.METADATA.VNDB.ENABLED;
   request_interval_ms = configuration.METADATA.VNDB.REQUEST_INTERVAL_MS;
