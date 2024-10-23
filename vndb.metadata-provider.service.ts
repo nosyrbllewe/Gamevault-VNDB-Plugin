@@ -1,12 +1,12 @@
-import { Injectable } from "@nestjs/common";
-import configuration from "../../../../configuration";
-import { DeveloperMetadata } from "../../developers/developer.metadata.entity";
-import { GameMetadata } from "../../games/game.metadata.entity";
-import { MinimalGameMetadataDto } from "../../games/minimal-game.metadata.dto";
-import { GenreMetadata } from "../../genres/genre.metadata.entity";
-import { PublisherMetadata } from "../../publishers/publisher.metadata.entity";
-import { TagMetadata } from "../../tags/tag.metadata.entity";
-import { MetadataProvider } from "../abstract.metadata-provider.service";
+import { Injectable } from "../../app/node_modules/@nestjs/common";
+import configuration from "../../app/dist/src/configuration";
+import { DeveloperMetadata } from "../../app/dist/src/modules/metadata/developers/developer.metadata.entity";
+import { GameMetadata } from "../../app/dist/src/modules/metadata/games/game.metadata.entity";
+import { MinimalGameMetadataDto } from "../../app/dist/src/modules/metadata/games/minimal-game.metadata.dto";
+import { GenreMetadata } from "../../app/dist/src/modules/metadata/genres/genre.metadata.entity";
+import { PublisherMetadata } from "../../app/dist/src/modules/metadata/publishers/publisher.metadata.entity";
+import { TagMetadata } from "../../app/dist/src/modules/metadata/tags/tag.metadata.entity";
+import { MetadataProvider } from "../../app/dist/src/modules/metadata/abstract.metadata-provider.service";
 
 export interface VndbVisualNovel
 {
