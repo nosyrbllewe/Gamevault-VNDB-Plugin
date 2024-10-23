@@ -4,8 +4,8 @@ import { Module } from "../../app/node_modules/@nestjs/common";
 import {
   GameVaultPluginModule,
   GameVaultPluginModuleMetadataV1,
-} from "../../app/src/globals";
-import { MetadataModule } from "../../app/src/modules/metadata/metadata.module";
+} from "../../app/dist/src/globals";
+import { MetadataModule } from "../../app/dist/src/modules/metadata/metadata.module";
 import { VndbMetadataProviderService } from "./vndb.metadata-provider.service";
 
 @Module({
