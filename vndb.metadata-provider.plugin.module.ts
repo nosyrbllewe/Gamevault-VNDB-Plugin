@@ -1,4 +1,4 @@
-/// <reference path="./tsconfig.json" />
+
 import { Module } from "../../app/node_modules/@nestjs/common";
 
 import {
@@ -11,6 +11,9 @@ import { VndbMetadataProviderService } from "./vndb.metadata-provider.service";
 @Module({
   imports: [
     MetadataModule, // You can use any modules of GameVault here
+  ],
+  controllers: [
+     // You can provide your own API endpoints
   ],
   providers: [VndbMetadataProviderService],
 })
