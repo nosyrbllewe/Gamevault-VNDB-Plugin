@@ -1,6 +1,4 @@
 import { Injectable } from "@nestjs/common";
-import { isNumberString } from "class-validator";
-import { isEmpty, toLower } from "lodash";
 import configuration from "../../../../configuration";
 import { DeveloperMetadata } from "../../developers/developer.metadata.entity";
 import { GameMetadata } from "../../games/game.metadata.entity";
@@ -152,7 +150,7 @@ export class VndbMetadataProviderService extends MetadataProvider {
       age_rating: 18,// Assume all visual novels are 18+ for now
       provider_slug: this.slug,
       provider_data_id: visualNovel.id?.toString(),
-      provider_data_url: "https://example.com",
+      provider_data_url:  "https://vndb.org/" + visualNovel.id?.toString(),
       title: visualNovel.title,
       release_date: isNaN(new Date(visualNovel.released).getTime())
         ? undefined
