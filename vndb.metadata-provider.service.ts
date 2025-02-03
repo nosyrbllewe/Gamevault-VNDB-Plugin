@@ -1,65 +1,21 @@
-import { Injectable } from "../../app/node_modules/@nestjs/common";
-import configuration from "../../app/dist/src/configuration";
-import { DeveloperMetadata } from "../../app/dist/src/modules/metadata/developers/developer.metadata.entity";
-import { GameMetadata } from "../../app/dist/src/modules/metadata/games/game.metadata.entity";
-import { MinimalGameMetadataDto } from "../../app/dist/src/modules/metadata/games/minimal-game.metadata.dto";
-import { GenreMetadata } from "../../app/dist/src/modules/metadata/genres/genre.metadata.entity";
-import { PublisherMetadata } from "../../app/dist/src/modules/metadata/publishers/publisher.metadata.entity";
-import { TagMetadata } from "../../app/dist/src/modules/metadata/tags/tag.metadata.entity";
-import { MetadataProvider } from "../../app/dist/src/modules/metadata/abstract.metadata-provider.service";
-
-export interface VndbVisualNovel
-{
-    released: string;
-    image: VndbImage;
-    title: string;
-    description: string;
-    id: string;
-    length_minutes: number;
-    rating: number;
-    screenshots: VndbImage[];
-    developers: VndbProducer[];
-    tags: VndbTag[];
-    devstatus: number;
-    extlinks: VndbExternalLink[];
-}
-
-export interface VndbTag
-{
-    id: string;
-    name: string;
-}
-
-export interface VndbImage
-{
-    url: string;
-}
-
-export interface VndbProducer
-{
-    id: string;
-    name: string;
-}
-
-export interface VndbExternalLink
-{
-    url: string;
-    label: string;
-}
-
-export interface VndbFilterResponse 
-{
-    results : VndbVisualNovel[];
-    more: boolean;
-}
+import { Injectable } from "@nestjs/common";
+import { DeveloperMetadata } from "src/modules/metadata/developers/developer.metadata.entity";
+import { GameMetadata } from "src/modules/metadata/games/game.metadata.entity";
+import { MinimalGameMetadataDto } from "src/modules/metadata/games/minimal-game.metadata.dto";
+import { GenreMetadata } from "src/modules/metadata/genres/genre.metadata.entity";
+import { PublisherMetadata } from "src/modules/metadata/publishers/publisher.metadata.entity";
+import { TagMetadata } from "src/modules/metadata/tags/tag.metadata.entity";
+import { MetadataProvider } from "src/modules/metadata/providers/abstract.metadata-provider.service";
+import { } from "@nestjs/common"
+import { VndbFilterResponse } from "./models/vndb-filter-response";
+import { VndbVisualNovel } from "./models/vndb-visual-novel";
 
 @Injectable()
 export class VndbMetadataProviderService extends MetadataProvider {
-  enabled = configuration.METADATA.VNDB.ENABLED;
-  request_interval_ms = configuration.METADATA.VNDB.REQUEST_INTERVAL_MS;
+  enabled = true;
   readonly slug = "vndb";
   readonly name = "VNDB";
-  readonly priority = configuration.METADATA.VNDB.PRIORITY;
+  readonly priority = 20;
   readonly fieldsToInclude = [
     "*",
     "age_ratings.*",
@@ -102,21 +58,14 @@ export class VndbMetadataProviderService extends MetadataProvider {
             throw new Error(`Error! status: ${response.status}`);
         }
 
-    const found_games: VndbVisualNovel[]  = [];
+    const searchResults: VndbVisualNovel[]  = [];
 
-    found_games.push(...responseData.results);
-
-    this.logger.debug({
-      message: `Found ${found_games.length} games on VNDB`,
-      query,
-      count: found_games.length,
-      games: found_games,
-    });
+    searchResults.push(...responseData.results);
 
     const minimalGameMetadata : MinimalGameMetadataDto[] = [];
-    for (const game of found_games) {
+    for (const result of searchResults) {
       minimalGameMetadata.push(
-        await this.mapMinimalGameMetadata(game as VndbVisualNovel),
+        await this.mapMinimalGameMetadata(result as VndbVisualNovel),
       );
     }
     return minimalGameMetadata;
@@ -174,7 +123,7 @@ export class VndbMetadataProviderService extends MetadataProvider {
       genres: [
           ({
             provider_slug: this.slug,
-            provider_data_id: 1,
+            provider_data_id: "1",
             name: "Visual Novel",
           }) as GenreMetadata,
         ],

@@ -1,19 +1,18 @@
 
-import { Module } from "../../app/node_modules/@nestjs/common";
+import { Module } from "@nestjs/common";
 
 import {
   GameVaultPluginModule,
   GameVaultPluginModuleMetadataV1,
-} from "../../app/dist/src/globals";
-import { MetadataModule } from "../../app/dist/src/modules/metadata/metadata.module";
+} from "src/globals";
+import { MetadataModule } from "src/modules/metadata/metadata.module";
+import { MediaModule } from "src/modules/media/media.module";
 import { VndbMetadataProviderService } from "./vndb.metadata-provider.service";
 
 @Module({
   imports: [
-    MetadataModule, // You can use any modules of GameVault here
-  ],
-  controllers: [
-     // You can provide your own API endpoints
+    MetadataModule,
+    MediaModule
   ],
   providers: [VndbMetadataProviderService],
 })
